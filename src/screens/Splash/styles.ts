@@ -17,17 +17,19 @@ export const Image = styled.Image`
 
 export const Title = styled.Text`
   font-size: ${fontScale(40)}px;
+  line-height: ${fontScale(40)}px;
   color: #ffff;
-  font-weight: bold;
+  font-family: "Bold";
   text-align: center;
   margin-top: ${heightPercentageToDP("-6")}px;
 `;
 
 export const Subtitle = styled.Text`
   font-size: ${fontScale(15)}px;
+  line-height: ${fontScale(25)}px;
   margin-top: ${fontScale(10)}px;
   color: #dde3f0;
-  font-weight: 400;
+  font-family: "Regular";
   text-align: center;
 `;
 
@@ -55,5 +57,5 @@ export const ButtonText = styled.Text`
   text-align: center;
   flex: 1;
   font-size: ${fontScale(15)}px;
-  font-weight: 600;
+  font-family: "TextMedium";
 `;

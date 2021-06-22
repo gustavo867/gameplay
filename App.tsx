@@ -1,17 +1,31 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Splash from "./src/screens/Splash";
+import { Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
+import {
+  Rajdhani_500Medium,
+  Rajdhani_700Bold,
+} from "@expo-google-fonts/rajdhani";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import Background from "./src/components/Background";
+import Routes from "./src/routes/routes";
 
 export default function App() {
-  return <Splash />;
-}
+  const [fontsLoaded] = useFonts({
+    Bold: Rajdhani_700Bold,
+    TextMedium: Inter_500Medium,
+    TitleMedium: Rajdhani_500Medium,
+    Regular: Inter_400Regular,
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
+    <Background>
+      <StatusBar style="light" />
+      <Routes />
+    </Background>
+  );
+}
