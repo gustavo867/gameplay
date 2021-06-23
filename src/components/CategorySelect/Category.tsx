@@ -42,7 +42,7 @@ export default function Category({
             opacity: categoryId === "" ? 1 : categoryId === id ? 1 : 0.4,
           }}
         >
-          {hasCheckBox && (
+          {hasCheckBox && categoryId === id && (
             <S.Check
               checked={
                 categoryId === "" ? true : categoryId === id ? true : false

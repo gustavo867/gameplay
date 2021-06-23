@@ -15,7 +15,7 @@ export default function DefaultGradient({
     <LinearGradient
       colors={["#243189", "#1B2565"]}
       style={{
-        padding: fontScale(3),
+        padding: fontScale(2),
         borderRadius: borderRadius,
         overflow: "hidden",
       }}

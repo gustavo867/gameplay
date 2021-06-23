@@ -41,6 +41,7 @@ export const ButtonContainer = styled.TouchableOpacity`
   border-radius: ${fontScale(10)}px;
   align-items: center;
   flex-direction: row;
+  align-self: center;
 `;
 
 export const LeftContainerIcon = styled.View`

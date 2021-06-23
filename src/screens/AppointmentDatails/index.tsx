@@ -14,6 +14,7 @@ import { members } from "../../utils/members";
 import Member from "../../components/Member";
 import ListDivider from "../../components/AppointmentCard/ListDivider";
 import MemberDivider from "../../components/Member/MemberDivider";
+import Button from "../Splash/Button";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -79,6 +80,8 @@ function AppointmentDatails() {
           </>
         )}
       />
+      <Button text="Entrar na partida" />
+      <S.Space />
     </S.Container>
   );
 }

@@ -8,9 +8,14 @@ import * as S from "./styles";
 type Props = {
   currentCategory: string;
   setCategory: (categoryId: string) => void;
+  hasCheckBox?: boolean;
 };
 
-function CategorySelect({ currentCategory, setCategory }: Props) {
+function CategorySelect({
+  currentCategory,
+  setCategory,
+  hasCheckBox = false,
+}: Props) {
   return (
     <S.Container
       contentContainerStyle={{
@@ -26,6 +31,7 @@ function CategorySelect({ currentCategory, setCategory }: Props) {
           icon={category.icon}
           id={category.id}
           categoryId={currentCategory}
+          hasCheckBox={hasCheckBox}
           onPress={() => setCategory(category.id)}
         />
       ))}

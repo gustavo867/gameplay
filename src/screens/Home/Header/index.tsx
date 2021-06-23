@@ -3,8 +3,11 @@ import { AntDesign } from "@expo/vector-icons";
 import * as S from "./styles";
 import { theme } from "../../../global/styles/theme";
 import Avatar from "../../../components/Avatar";
+import { useNavigation } from "@react-navigation/core";
 
 function Header() {
+  const { navigate } = useNavigation();
+
   return (
     <S.Header>
       <S.Row>
@@ -17,7 +20,7 @@ function Header() {
           <S.Message>Hoje é dia de vitória</S.Message>
         </S.ColumnText>
       </S.Row>
-      <S.ButtonContainer>
+      <S.ButtonContainer onPress={() => navigate("CreateAppointment")}>
         <AntDesign name="plus" size={24} color={theme.colors.heading} />
       </S.ButtonContainer>
     </S.Header>

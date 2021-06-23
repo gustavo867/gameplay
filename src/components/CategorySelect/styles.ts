@@ -15,15 +15,13 @@ type CheckProps = {
 };
 
 export const Container = styled.ScrollView`
-  min-height: ${fontScale(120)}px;
   padding-left: ${fontScale(20)}px;
-  padding-top: ${fontScale(40)}px;
   flex-grow: 0;
 `;
 
 export const CategoryContainer = styled.TouchableOpacity`
   width: ${fontScale(100)}px;
-  height: ${fontScale(105)}px;
+  height: ${fontScale(120)}px;
   border-radius: ${fontScale(10)}px;
   border-color: #243189;
   border-width: ${fontScale(3)}px;
@@ -35,10 +33,10 @@ export const CategoryContainer = styled.TouchableOpacity`
 
 export const CategoryContent = styled(LinearGradient)`
   width: ${fontScale(100)}px;
-  height: ${fontScale(105)}px;
+  height: ${fontScale(120)}px;
   background-color: transparent;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-top: ${fontScale(15)}px;
   padding-bottom: ${fontScale(10)}px;
 `;
@@ -56,10 +54,9 @@ export const Check = styled.View<CheckProps>`
     props.checked === true ? theme.colors.primary : theme.colors.secondary100};
   align-self: flex-end;
   position: absolute;
-  right: ${fontScale(8)}px;
+  right: ${fontScale(10)}px;
   top: ${fontScale(10)}px;
-  margin-right: ${fontScale(7)}px;
-  border-radius: ${fontScale(8)}px;
+  border-radius: ${fontScale(10)}px;
   border-color: ${(props) =>
     props.checked ? theme.colors.secondary50 : "transparent"};
   border-width: ${(props) => (props.checked === true ? fontScale(2) : 0)}px;
