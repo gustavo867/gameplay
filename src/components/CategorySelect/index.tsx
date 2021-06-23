@@ -1,18 +1,35 @@
-import { ReactNode } from "react";
+import React from "react";
+import { categories } from "../../utils/categories";
+import { fontScale } from "../../utils/responsive";
+import Category from "./Category";
 
-import { Text } from "react-native";
+import * as S from "./styles";
 
-import { Container } from "./styles";
+type Props = {
+  currentCategory: string;
+  setCategory: (categoryId: string) => void;
+};
 
-interface CategorySelectProps {
-  children: ReactNode;
-}
-
-function CategorySelect() {
+function CategorySelect({ currentCategory, setCategory }: Props) {
   return (
-    <Container>
-      <Text>CategorySelect</Text>
-    </Container>
+    <S.Container
+      contentContainerStyle={{
+        paddingRight: fontScale(40),
+      }}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
+      {categories.map((category) => (
+        <Category
+          key={category.id}
+          title={category.title}
+          icon={category.icon}
+          id={category.id}
+          categoryId={currentCategory}
+          onPress={() => setCategory(category.id)}
+        />
+      ))}
+    </S.Container>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import * as S from "./styles";
-import { theme } from "../../global/styles/theme";
 
 interface BackgroundProps {
   children: ReactNode;
@@ -9,8 +8,10 @@ interface BackgroundProps {
 function Background({ children }: BackgroundProps) {
   return (
     <S.Container
+      start={{ x: 0, y: 0.5 }}
+      end={{ x: 0.8, y: 1 }}
       style={{ flex: 1 }}
-      colors={[theme.colors.secondary80, theme.colors.secondary100]}
+      colors={["#0E1647", "#0A1033"]}
     >
       {children}
     </S.Container>

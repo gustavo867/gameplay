@@ -7,7 +7,9 @@ import { fontScale } from "../../../utils/responsive";
 
 export const Header = styled(SafeAreaView)`
   width: ${width}px;
-  padding-horizontal: ${fontScale(24)}px;
+  padding-horizontal: ${fontScale(18)}px;
+  align-self: center;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
 `;
