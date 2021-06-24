@@ -4,8 +4,10 @@ import * as S from "./styles";
 import { theme } from "../../../global/styles/theme";
 import Avatar from "../../../components/Avatar";
 import { useNavigation } from "@react-navigation/core";
+import { useAuth } from "../../../context/AuthContext";
 
 function Header() {
+  const { user } = useAuth();
   const { navigate } = useNavigation();
 
   return (
@@ -15,7 +17,7 @@ function Header() {
         <S.ColumnText>
           <S.Row>
             <S.UserNameLight>Olá,</S.UserNameLight>
-            <S.UserNameBold>Gustavo</S.UserNameBold>
+            <S.UserNameBold>{user.firstName}</S.UserNameBold>
           </S.Row>
           <S.Message>Hoje é dia de vitória</S.Message>
         </S.ColumnText>

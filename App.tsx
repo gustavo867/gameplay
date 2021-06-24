@@ -4,6 +4,7 @@ import {
   Rajdhani_500Medium,
   Rajdhani_700Bold,
 } from "@expo-google-fonts/rajdhani";
+import { AuthContextProvider } from "./src/context/AuthContext";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
@@ -23,9 +24,11 @@ export default function App() {
   }
 
   return (
-    <Background>
-      <StatusBar style="light" />
-      <Routes />
-    </Background>
+    <AuthContextProvider>
+      <Background>
+        <StatusBar style="light" />
+        <Routes />
+      </Background>
+    </AuthContextProvider>
   );
 }

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import * as AuthSession from "expo-auth-session";
 import {
+  CDN_IMAGE,
   CLIENT_ID,
   REDIRECT_URI,
   RESPONSE_TYPE,
@@ -26,6 +27,7 @@ export type User = {
 type AuthContextData = {
   user: User;
   signIn: () => void;
+  loading: boolean;
 };
 
 type Children = {
@@ -44,20 +46,37 @@ export function AuthContextProvider({ children }: Children) {
     try {
       setLoading(true);
 
-      const authUrl = `https://discord.com/api/oauth2/authorize?client_id=857401389621575690&redirect_uri=http%3A%2F%2Fauth.expo.io%2FUNVERIFIED-192.168.1.68-gameplay&response_type=code&scope=email%20guilds%20identify%20connections`;
+      const authUrl = `${api.defaults.baseURL}oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
       const res = await AuthSession.startAsync({
         authUrl,
       });
 
-      console.log("Res", res);
+      if (res.type === "success") {
+        api.defaults.headers.authorization = `Bearer ${res.params.access_token}`;
+
+        const userInfo = await api.get("/users/@me");
+
+        setUser({
+          avatar: `${CDN_IMAGE}/avatars/${userInfo.data.avatar}.png`,
+          email: userInfo.data.email,
+          firstName: userInfo.data.username.split("", 1),
+          id: userInfo.data.id,
+          token: res.params.access_token,
+          username: userInfo.data.username,
+        });
+
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
     } catch (e) {
-      console.log("Error", e);
+      setLoading(false);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signIn }}>
+    <AuthContext.Provider value={{ user, signIn, loading }}>
       {children}
     </AuthContext.Provider>
   );
