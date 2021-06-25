@@ -4,6 +4,7 @@ import { ServerContext } from "../../context/ServerContext";
 import { EvilIcons } from "@expo/vector-icons";
 
 import * as S from "./styles";
+import { CDN_IMAGE } from "../../config/discord";
 
 const ServerSelect: React.FC = () => {
   const { serverSelected, setModalOpen } = useContext(ServerContext);
@@ -12,17 +13,16 @@ const ServerSelect: React.FC = () => {
     <S.ServerSelectContainer onPress={() => setModalOpen(true)}>
       <S.RowCenter>
         {serverSelected ? (
-          <GuildIcon img={serverSelected.guild.icon} />
+          <GuildIcon
+            img={`${CDN_IMAGE}/icons/${serverSelected.id}/${serverSelected.icon}.png`}
+          />
         ) : (
           <S.ServerBaseImg />
         )}
         <S.Column>
           <S.ServerSelectTitle>
-            {serverSelected
-              ? serverSelected.guild.name
-              : "Selecione um servidor"}
+            {serverSelected ? serverSelected.name : "Selecione um servidor"}
           </S.ServerSelectTitle>
-          {serverSelected && <S.ServerSelectGame>Valorant</S.ServerSelectGame>}
         </S.Column>
       </S.RowCenter>
       <S.ActionBtn>

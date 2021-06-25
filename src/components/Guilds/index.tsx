@@ -7,26 +7,26 @@ import GuildIcon from "../AppointmentCard/GuildIcon";
 import * as S from "./styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ListDivider from "../AppointmentCard/ListDivider";
+import Load from "../Load";
+import { CDN_IMAGE } from "../../config/discord";
 
 interface GuildsProps {}
 
 function Guilds({}: GuildsProps) {
-  const { servers, setServerSelected, setModalOpen } =
+  const { servers, setServerSelected, setModalOpen, loading } =
     useContext(ServerContext);
 
   const handleServerSelected = useCallback(
     (item: typeof servers[0]) => {
       setServerSelected({
-        category: item.category,
-        guild: item.guild,
-        id: item.id,
+        ...item,
       });
       setModalOpen(false);
     },
     [servers]
   );
 
-  return (
+  return !loading ? (
     <FlatList
       data={servers}
       style={{
@@ -37,11 +37,13 @@ function Guilds({}: GuildsProps) {
         <>
           <S.GuildContainer onPress={() => handleServerSelected(item)}>
             <S.Row>
-              <GuildIcon img={item.guild.icon} />
+              <GuildIcon
+                img={`${CDN_IMAGE}/icons/${item.id}/${item.icon}.png`}
+              />
               <S.Column>
-                <S.Title>{item.guild.name}</S.Title>
+                <S.Title>{item.name}</S.Title>
                 <S.IsOwner>
-                  {item.guild.owner ? "Administrador" : "Convidado"}
+                  {item.owner ? "Administrador" : "Convidado"}
                 </S.IsOwner>
               </S.Column>
             </S.Row>
@@ -53,6 +55,8 @@ function Guilds({}: GuildsProps) {
         </>
       )}
     />
+  ) : (
+    <Load />
   );
 }
 

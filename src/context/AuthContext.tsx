@@ -3,9 +3,11 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import * as AuthSession from "expo-auth-session";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   CDN_IMAGE,
   CLIENT_ID,
@@ -14,6 +16,8 @@ import {
   SCOPE,
 } from "../config/discord";
 import { api } from "../services/api";
+import { COLLECTION_USERS } from "../config/database";
+import { Alert } from "react-native";
 
 export type User = {
   id: string;
@@ -27,6 +31,7 @@ export type User = {
 type AuthContextData = {
   user: User;
   signIn: () => void;
+  signOut: () => void;
   loading: boolean;
 };
 
@@ -57,14 +62,18 @@ export function AuthContextProvider({ children }: Children) {
 
         const userInfo = await api.get("/users/@me");
 
-        setUser({
-          avatar: `${CDN_IMAGE}/avatars/${userInfo.data.avatar}.png`,
+        const userData = {
+          avatar: `${CDN_IMAGE}/avatars/${userInfo.data.id}/${userInfo.data.avatar}.png`,
           email: userInfo.data.email,
-          firstName: userInfo.data.username.split("", 1),
+          firstName: userInfo.data.username.split(" ", 1),
           id: userInfo.data.id,
           token: res.params.access_token,
           username: userInfo.data.username,
-        });
+        };
+
+        await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
+
+        setUser(userData);
 
         setLoading(false);
       } else {
@@ -75,8 +84,40 @@ export function AuthContextProvider({ children }: Children) {
     }
   }, []);
 
+  const signOut = useCallback(() => {
+    Alert.alert("Deseja sair do gameplay", "", [
+      {
+        style: "cancel",
+        text: "Cancelar",
+      },
+      {
+        text: "Sim",
+        onPress: () => {
+          setUser({} as User);
+          AsyncStorage.removeItem(COLLECTION_USERS);
+        },
+        style: "default",
+      },
+    ]);
+  }, []);
+
+  const loadUserFromStorage = useCallback(async () => {
+    const storage = await AsyncStorage.getItem(COLLECTION_USERS);
+
+    if (storage) {
+      const user = JSON.parse(storage) as User;
+      api.defaults.headers.authorization = `Bearer ${user.token}`;
+
+      setUser(user);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadUserFromStorage();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, signIn, loading }}>
+    <AuthContext.Provider value={{ user, signIn, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );

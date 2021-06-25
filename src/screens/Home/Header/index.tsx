@@ -5,15 +5,18 @@ import { theme } from "../../../global/styles/theme";
 import Avatar from "../../../components/Avatar";
 import { useNavigation } from "@react-navigation/core";
 import { useAuth } from "../../../context/AuthContext";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 function Header() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { navigate } = useNavigation();
 
   return (
     <S.Header>
       <S.Row>
-        <Avatar url="https://avatars.githubusercontent.com/u/63013756?v=4" />
+        <TouchableOpacity onPress={() => signOut()}>
+          <Avatar url={user.avatar} />
+        </TouchableOpacity>
         <S.ColumnText>
           <S.Row>
             <S.UserNameLight>Olá,</S.UserNameLight>

@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CategorySelect from "../../components/CategorySelect";
 import Guilds from "../../components/Guilds";
-
+import uuid from "react-native-uuid";
 import Header from "../../components/Header";
 import KeyboardScroll from "../../components/KeyboardScroll";
 import ListHeader from "../../components/ListHeader";
@@ -15,6 +16,7 @@ import Button from "../Splash/Button";
 import ServerSelect from "./ServerSelect";
 
 import * as S from "./styles";
+import { COLLECTION_APPOINTMENTS } from "../../config/database";
 
 interface CreateAppointmentProps {}
 
@@ -25,7 +27,7 @@ function CreateAppointment({}: CreateAppointmentProps) {
     hourFirst: "",
     hourSecondary: "",
   });
-  const { goBack } = useNavigation();
+  const { goBack, addListener, removeListener, dispatch } = useNavigation();
   const [desc, setDesc] = useState("");
   const {
     currentCategory,
@@ -34,9 +36,10 @@ function CreateAppointment({}: CreateAppointmentProps) {
     serverSelected,
     appointments,
     setAppointments,
+    setModalOpen,
   } = useContext(ServerContext);
 
-  const handleNewAppointment = useCallback(() => {
+  const handleNewAppointment = useCallback(async () => {
     if (!serverSelected) {
       Alert.alert("Selecione um servidor");
 
@@ -56,17 +59,22 @@ function CreateAppointment({}: CreateAppointmentProps) {
     }
 
     const data = {
-      id: String(Number(appointments[appointments.length - 1].id) + 1),
+      id: uuid.v4().toString(),
       guild: {
-        id: "1",
-        name: serverSelected?.guild.name,
-        icon: serverSelected?.guild.icon,
-        owner: serverSelected.guild.owner,
+        id: serverSelected.id,
+        name: serverSelected?.name,
+        icon: serverSelected?.icon,
+        owner: serverSelected.owner,
       },
       category: currentCategory,
       date: `${dateData.firstValue}/${dateData.secondValue} às ${dateData.hourFirst}:${dateData.hourSecondary}`,
       description: desc,
     };
+
+    await AsyncStorage.setItem(
+      COLLECTION_APPOINTMENTS,
+      JSON.stringify([...appointments, data])
+    );
 
     setAppointments((state) => [...state, data]);
     goBack();

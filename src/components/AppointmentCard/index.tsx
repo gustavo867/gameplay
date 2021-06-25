@@ -6,6 +6,7 @@ import GuildIcon from "./GuildIcon";
 import * as S from "./styles";
 import { fontScale } from "../../utils/responsive";
 import { useNavigation } from "@react-navigation/core";
+import { CDN_IMAGE } from "../../config/discord";
 
 interface AppointmentCardProps {
   id: string;
@@ -28,7 +29,9 @@ function AppointmentCard(props: AppointmentCardProps) {
       activeOpacity={0.8}
       onPress={() => navigate("AppointmentDetails", { ...props })}
     >
-      <GuildIcon img={props.guild.icon} />
+      <GuildIcon
+        img={`${CDN_IMAGE}/icons/${props.guild.id}/${props.guild.icon}.png`}
+      />
       <S.Column>
         <S.HeaderContainer>
           <S.Title>{props.guild.name}</S.Title>

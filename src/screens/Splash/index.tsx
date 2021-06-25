@@ -2,13 +2,10 @@ import React from "react";
 import * as S from "./styles";
 import Button from "./Button";
 import img from "../../assets/illustration.png";
-import { useNavigation } from "@react-navigation/core";
 import { useAuth } from "../../context/AuthContext";
-import { ActivityIndicator, Alert } from "react-native";
-import { theme } from "../../global/styles/theme";
+import Load from "../../components/Load";
 
 function Splash() {
-  const { navigate } = useNavigation();
   const { signIn, loading } = useAuth();
 
   return (
@@ -22,7 +19,7 @@ function Splash() {
       </S.Subtitle>
 
       {loading ? (
-        <ActivityIndicator color={theme.colors.primary} size="large" />
+        <Load />
       ) : (
         <Button text="Entrar com discord" onPress={() => signIn()} />
       )}
